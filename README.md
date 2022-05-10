@@ -29,6 +29,15 @@ Quite self explanatory. You can:
 - Multiverse Bridge Address: [0x59C481548CE7BA13f3288df9f4FCf44a10A589A0](https://moonriver.moonscan.io/address/0x59C481548CE7BA13f3288df9f4FCf44a10A589A0)
 - [Partial interface contracts](./contract_interfaces/bridgeV1/)
 
+
+## Minecraft Metaverse Services
+
+Minecraft Metaverse Services provides easily accessible HTTP APIs for developers interested in building advanced data
+processing based on data available for events in the Moonsama Minecraft Metaverse.
+
+- [Overview](minecraft_interfaces/mcapi)
+- [Carnage Stats](minecraft_interfaces/mcapi/carnage_stats)
+
 ## Requests
 Something missing? Something needed? Feature requests? ->
 Please open an issue in this repo.

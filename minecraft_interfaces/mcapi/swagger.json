@@ -1,0 +1,330 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Moonsama Minecraft Metaverse Services",
+    "description": "This API is used to interact with the Moonsama Minecraft Metaverse Services.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://mcapi.moonsama.com"
+    }
+  ],
+  "paths": {
+    "/game/{gameId}/carnage-stats/result/original": {
+      "get": {
+        "description": "Query player inventories for a carnage session",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The game id.",
+            "example": "minecraft-carnage-2022-05-01"
+          },
+          {
+            "name": "player",
+            "in": "query",
+            "description": "Request a specific player instead of everyone. Allows partial names.",
+            "schema": {
+              "type": "string",
+              "description": "A player name",
+              "example": "HeaX_MC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Contains one key-value-pair per player, where the key is the Minecraft player name. Note that only resources with non-zero values are present.",
+                  "example": {
+                    "HeaX_MC": {
+                      "wood": 111,
+                      "stone": 6.1999
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/game/{gameId}/carnage-stats/result/gganbu": {
+      "get": {
+        "description": "Query gganbu calculation results for a carnage session",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The game id.",
+            "example": "minecraft-carnage-2022-05-01"
+          },
+          {
+            "name": "player",
+            "in": "query",
+            "description": "Request a specific player instead of everyone. Allows partial names.",
+            "schema": {
+              "type": "string",
+              "description": "A player name",
+              "example": "HeaX_MC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Returns the base gganbu with 1 Moonsama Power if no player is provided. If a player is provided, returns the result for that player.",
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "description": "Gganbu for 1 Gganbu factor if no player is provided",
+                      "properties": {
+                        "{resource}": {
+                          "type": "number",
+                          "description": "One entry per resource, represents the Gganbu for 1 Gganbu factor for that resource.",
+                          "example": 361.110751234131231
+                        },
+                        "power_total": {
+                          "type": "integer",
+                          "description": "The total of all Gganbu factors present in the game",
+                          "example": 623
+                        },
+                        "factors": {
+                          "type": "array",
+                          "description": "Array of gganbu factors. Take as many entries as a player has Moonsama Power, and add these together to receive the Gganbu factor for that player. If a player has more Moonsama Power than there are entries in the array, keep adding the last entry.",
+                          "example": [
+                            1,
+                            0.75,
+                            0.5,
+                            0.25
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "description": "Finalized Gganbu for a specific player",
+                      "properties": {
+                        "player": {
+                          "type": "string",
+                          "description": "The name the player had while playing"
+                        },
+                        "power": {
+                          "type": "integer",
+                          "description": "The Moonsama Power of the player. 1 Moonsama = 1 Moonsama Power, 1 Neon Moonsama = 10 Moonsama Power, 1 Multiverse Avatar = 1 Moonsama Power, 1 Artist Skin = 1 Moonsama Power",
+                          "example": 4
+                        },
+                        "factor": {
+                          "type": "number",
+                          "description": "The calculated Gganbu factor for the player. The base gganbu is multiplied by this before being added to the player's rewards.",
+                          "example": 1.75
+                        },
+                        "playtime": {
+                          "type": "string",
+                          "description": "Formatted recorded playtime for the player during that session.",
+                          "example": "1 hrs 59 min"
+                        },
+                        "{resource}": {
+                          "type": "number",
+                          "description": "One entry per resource, represents the finalized Gganbu of the player for that resource.",
+                          "example": 361.110751234131231
+                        },
+                        "factors": {
+                          "type": "array",
+                          "description": "Array of gganbu factors. Take as many entries as a player has Moonsama Power, and add these together to receive the Gganbu factor for that player. If a player has more Moonsama Power than there are entries in the array, keep adding the last entry.",
+                          "example": [
+                            1,
+                            0.75,
+                            0.5,
+                            0.25
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/game/{gameId}/carnage-stats/result/personal_share": {
+      "get": {
+        "description": "Query taxed inventories for a carnage session",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The game id.",
+            "example": "minecraft-carnage-2022-05-01"
+          },
+          {
+            "name": "player",
+            "in": "query",
+            "description": "Request a specific player instead of everyone. Allows partial names.",
+            "schema": {
+              "type": "string",
+              "description": "A player name",
+              "example": "HeaX_MC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Contains one key-value-pair per player, where the key is the Minecraft player name. Note that only resources with non-zero values are present.",
+                  "example": {
+                    "HeaX_MC": {
+                      "wood": 111,
+                      "stone": 6.1999
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/game/{gameId}/carnage-stats/result/final": {
+      "get": {
+        "description": "Query summonable resources for a carnage session",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The game id.",
+            "example": "minecraft-carnage-2022-05-01"
+          },
+          {
+            "name": "player",
+            "in": "query",
+            "description": "Request a specific player instead of everyone. Allows partial names.",
+            "schema": {
+              "type": "string",
+              "description": "A player name",
+              "example": "HeaX_MC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Contains one key-value-pair per player, where the key is the Minecraft player name.",
+                  "example": {
+                    "HeaX_MC": {
+                      "wood": 111,
+                      "stone": 6.1999,
+                      "exp": 0,
+                      "gold": 0,
+                      "iron": 0,
+                      "string": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/game/{gameId}/carnage-stats/result/leaderboard": {
+      "get": {
+        "description": "Read the leaderboard for a carnage session",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The game id.",
+            "example": "minecraft-carnage-2022-05-01"
+          },
+          {
+            "name": "player",
+            "in": "query",
+            "description": "Request a specific player instead of everyone. Allows partial names.",
+            "schema": {
+              "type": "string",
+              "description": "A player name",
+              "example": "HeaX_MC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resources": {
+                      "type": "object",
+                      "description": "Contains metadata for resources that were available for export",
+                      "example": {
+                        "stone": {
+                          "itemId": "stone",
+                          "name": "Stone",
+                          "icon": "https://moonsama.mypinata.cloud/ipfs/QmcNaV3KZJQWAVCxZHzZe4ocTY3ZGSnjmk3SL8s6s8mpDR"
+                        },
+                        "iron": {
+                          "itemId": "iron",
+                          "name": "Iron",
+                          "icon": "https://moonsama.mypinata.cloud/ipfs/QmYYrvPNCrXzxqvmPPZZjFLvbJ91dWNsDDfJjw8YRq2LT9"
+                        }
+                      }
+                    },
+                    "itemTotals": {
+                      "type": "array",
+                      "description": "Contains the summarized resource counts. Resources are always sorted in descending order based on their total count.",
+                      "example": [
+                        {
+                          "name": "Stone",
+                          "amount": 201215,
+                          "icon": "https://moonsama.mypinata.cloud/ipfs/QmcNaV3KZJQWAVCxZHzZe4ocTY3ZGSnjmk3SL8s6s8mpDR"
+                        }
+                      ]
+                    },
+                    "leaderboards": {
+                      "type": "array",
+                      "description": "Contains one leaderboard per resource, showing the top ten or the requested player. Leaderboards are always sorted in descending order based on their total count.",
+                      "example": [
+                        {
+                          "itemId": "stone",
+                          "leaderboard": [
+                            {
+                              "playerId": "51bae678-0d9d-4dff-bfde-491543e332a5",
+                              "name": "Heax_MC",
+                              "rank": 1,
+                              "amount": 2304
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
